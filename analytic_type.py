@@ -332,7 +332,7 @@ class AnalyticType(FiniteLatticePoset):
     EXAMPLES::
 
         sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-        sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
+        sage: x,y,z,a,b,c,d = var("x,y,z,a,b,c,d")
         sage: el = QuasiModularForms(n=3, k=6, ep=-1)(y-z^3)
         sage: el.analytic_type()
         quasi modular
@@ -342,7 +342,7 @@ class AnalyticType(FiniteLatticePoset):
         a function which is holomorphic at infinity.
 
         sage: from sage.modular.modform_hecketriangle.graded_ring import WeakModularFormsRing
-        sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
+        sage: x,y,z,a,b,c,d = var("x,y,z,a,b,c,d")
         sage: el2 = WeakModularFormsRing(n=3)(x/(x^3-y^2)-y/(x^3-y^2))
         sage: el2.analytic_type()
         weakly holomorphic modular

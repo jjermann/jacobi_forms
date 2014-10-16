@@ -38,7 +38,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
 
     INPUT:
 
-    - ``f``              -- A rational function in ``x,y,z,d,a,b,c`` over ``base_ring``.
+    - ``f``              -- A rational function in ``x,y,z,a,b,c,d`` over ``base_ring``.
 
     - ``n``              -- An integer greater or equal to `3` corresponding
                             to the ``HeckeTriangleGroup`` with that parameter
@@ -75,7 +75,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
     EXAMPLES::
 
         sage: from sage.modular.modform_hecketriangle.constructor import rational_type
-        sage: (x,y,z,d,a,b,c) = var("x,y,z,d,a,b,c")
+        sage: (x,y,z,a,b,c,d) = var("x,y,z,a,b,c,d")
 
         sage: rational_type(0, n=4)
         (True, True, 0, 1, zero)
@@ -117,27 +117,29 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
         (True, True, -4, 1, weakly holomorphic modular)
     """
 
-    raise NotImplementedError("bad")
     from analytic_type import AnalyticType
     AT = AnalyticType()
 
     # Determine whether f is zero
     if (f == 0):
-        #       elem, homo, k,     ep,    analytic_type
-        return (True, True, QQ(0), ZZ(1), AT([]))
+        #       elem, homo, k,     ep,    m,     analytic_type
+        return (True, True, QQ(0), ZZ(1), QQ(0), AT([]))
 
     analytic_type = AT(["quasi", "mero"])
 
-    R              = PolynomialRing(base_ring,'x,y,z,d,a,b,c')
+    R              = PolynomialRing(base_ring,'x,y,z,a,b,c,d')
     F              = FractionField(R)
-    (x,y,z,d,a,b,c)  = R.gens()
+    (x,y,z,a,b,c,d)  = R.gens()
     R2             = PolynomialRing(PolynomialRing(base_ring, 'd'), 'x,y,z,a,b,c')
+    R3             = PolynomialRing(PolynomialRing(base_ring, 'x,y,z,b,c,d'), 'a')
     dhom           = R.hom( R2.gens() + (R2.base().gen(),), R2)
+    dhomindex      = R.hom( R3.base().gens()[0:3] + (R3.gen(),) + R3.base().gens()[3:6], R3)
 
     f              = F(f)
 
     num            = R(f.numerator())
     denom          = R(f.denominator())
+    #TODO
     ep_num         = set([ZZ(1) - 2*(( sum([g.exponents()[0][m] for m in [1,2]]) )%2) for g in   dhom(num).monomials()])
     ep_denom       = set([ZZ(1) - 2*(( sum([g.exponents()[0][m] for m in [1,2]]) )%2) for g in dhom(denom).monomials()])
 
@@ -146,30 +148,32 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
         hom_denom  = R( denom.subs(x=x**4, y=y**2, z=z**2) )
     else:
         n          = ZZ(n)
-        hom_num    = R(   num.subs(x=x**4, y=y**(2*n), z=z**(2*(n-2))) )
-        hom_denom  = R( denom.subs(x=x**4, y=y**(2*n), z=z**(2*(n-2))) )
+        hom_num    = R(   num.subs(x=x**4, y=y**(2*n), z=z**(2*(n-2)), a=a**ZZ(1), b=b**ZZ(2), c=c**ZZ(1)) )
+        hom_denom  = R( denom.subs(x=x**4, y=y**(2*n), z=z**(2*(n-2)), a=a**ZZ(1), b=b**ZZ(2), c=c**ZZ(1)) )
 
     # Determine whether the denominator of f is homogeneous
     if (len(ep_denom) == 1 and dhom(hom_denom).is_homogeneous()):
         elem = True
     else:
-        #       elem,  homo,  k,    ep,   analytic_type
-        return (False, False, None, None, None)
+        #       elem,  homo,  k,    ep,   m,    analytic_type
+        return (False, False, None, None, None, None)
 
 
     # Determine whether f is homogeneous
-    if (len(ep_num) == 1 and dhom(hom_num).is_homogeneous()):
+    if (len(ep_num) == 1 and dhom(hom_num).is_homogeneous() and dhomindex(num).is_homogeneous()):
         homo   = True
         if (n == infinity):
             weight = (dhom(hom_num).degree() - dhom(hom_denom).degree())
         else:
             weight = (dhom(hom_num).degree() - dhom(hom_denom).degree()) / (n-2)
+            index = (dhomindex(num).degree() - dhomindex(denom).degree()) / ZZ(2)
         ep     = ep_num.pop() / ep_denom.pop()
     # TODO: decompose f (resp. its degrees) into homogeneous parts
     else:
         homo   = False
         weight = None
         ep     = None
+        index  = None
 
     # Note that we intentially leave out the d-factor!
     if (n == infinity):
@@ -178,7 +182,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
         finf_pol = x**n-y**2
 
     # Determine whether f is modular
-    if not ( (num.degree(z) > 0) or (denom.degree(z) > 0) ):
+    if not ( (num.degree(z) > 0) or (denom.degree(z) > 0) or (num.degree(c) > 0) or (denom.degree(c) > 0)):
         analytic_type = analytic_type.reduce_to("mero")
 
     # Determine whether f is holomorphic
@@ -210,7 +214,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
         if (dhom(denom).is_constant()):
             analytic_type = analytic_type.reduce_to(["quasi", "weak"])
 
-    return (elem, homo, weight, ep, analytic_type)
+    return (elem, homo, weight, ep, index, analytic_type)
 
 
 def FormsSpace(analytic_type, group=3, base_ring=ZZ, k=QQ(0), ep=None):

@@ -129,7 +129,7 @@ class FormsSpace_abstract(FormsRing_abstract):
             sage: from sage.modular.modform_hecketriangle.graded_ring import MeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import ModularForms, QuasiWeakModularForms
             sage: MF = ModularForms(k=12, ep=1)
-            sage: (x,y,z,d,a,b,c) = MF.pol_ring().gens()
+            sage: (x,y,z,a,b,c,d) = MF.pol_ring().gens()
 
             sage: Delta = MeromorphicModularFormsRing().Delta()
             sage: Delta.parent()
@@ -802,7 +802,7 @@ class FormsSpace_abstract(FormsRing_abstract):
             1 + 32*q + 480*q^2 + 4480*q^3 + 29152*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b,c) = self.rat_field().gens()
+        (x,y,z,a,b,c,d) = self.rat_field().gens()
         n = self.hecke_n()
 
         if (n == infinity):
@@ -1138,7 +1138,7 @@ class FormsSpace_abstract(FormsRing_abstract):
 
         OUTPUT:
 
-        A polynomial in ``x,y,z,d,a,b,c``, corresponding to ``f_rho, f_i, E2``
+        A polynomial in ``x,y,z,a,b,c,d``, corresponding to ``f_rho, f_i, E2``
         and the (possibly) transcendental parameter ``d``.
 
         EXAMPLES::
@@ -1202,7 +1202,7 @@ class FormsSpace_abstract(FormsRing_abstract):
             (-81*x^2*y^5 - 606*x^3*y^3 - 337*x^4*y)/(1024*y^2*d - 1024*x*d)
         """
 
-        (x,y,z,d,a,b,c) = self.rat_field().gens()
+        (x,y,z,a,b,c,d) = self.rat_field().gens()
         n = self._group.n()
 
         if (n ==infinity):
@@ -1303,7 +1303,7 @@ class FormsSpace_abstract(FormsRing_abstract):
         basis_pol = self.F_basis_pol(m, order_1=order_1)
 
         if (self.hecke_n() == infinity):
-            (x,y,z,d,a,b,c) = self.pol_ring().gens()
+            (x,y,z,a,b,c,d) = self.pol_ring().gens()
             if (x.divides(basis_pol.numerator()) and m > 0):
                 new_space = self.extend_type("cusp")
             elif (x.divides(basis_pol.denominator()) or m < 0):
