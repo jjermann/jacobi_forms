@@ -3,3 +3,5 @@ FIXME:
 o K has negative weight, for the homogeneous weight polynomial it is easier to
   work with positive weights, so for now the weight of K is set to 1 instead
   of -1
+
+o Is K resp. J1 even modular?? ep=?

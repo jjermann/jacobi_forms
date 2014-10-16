@@ -694,7 +694,9 @@ class FormsSpace_abstract(FormsRing_abstract):
                 l2 = num % n
                 l1 = ((num-l2)/n).numerator()
         else:
-            raise ValueError("Invalid or non-occuring weight k={}, ep={}!".format(k,ep))
+            l2 = 0
+            l1 = 0
+            #raise ValueError("Invalid or non-occuring weight k={}, ep={}!".format(k,ep))
         return (l1, l2)
 
     # TODO: this only makes sense for modular forms,
@@ -1609,7 +1611,10 @@ class FormsSpace_abstract(FormsRing_abstract):
             l2 = order_1
             order_inf = ZZ(num) - order_1
         else:
-            num = ZZ((k-(1-ep)*ZZ(n)/ZZ(n-2)) * ZZ(n-2) / ZZ(4))
+            try:
+                num = ZZ((k-(1-ep)*ZZ(n)/ZZ(n-2)) * ZZ(n-2) / ZZ(4))
+            except TypeError:
+                num = 0
             l2 = num % n
             order_inf = ((num - l2) / n).numerator()
 

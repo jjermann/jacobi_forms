@@ -1405,7 +1405,6 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             64*q - 512*q^2 + 1792*q^3 - 4096*q^4 + O(q^5)
         """
 
-        return self
         if (force or self.parent().has_reduce_hom()) and self.is_homogeneous():
             return self.parent().homogeneous_part(self._weight, self._ep)(self._rat)
         else:
