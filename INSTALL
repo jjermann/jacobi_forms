@@ -1,0 +1,4 @@
+1. Ideally use the following sage branch: u/jj/triangle_conjugacy
+2. Name this directory "jacform" and move it to SAGE_ROOT/src/sage/modular/
+3. Run sage in the directory and do "%runfile test.sage"
+4. Do e.g. JF.J1(), etc...
