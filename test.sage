@@ -18,11 +18,17 @@ cm = sage.structure.element.get_coercion_model()
 AT = AnalyticType()
 JFC = JFSeriesConstructor()
 
-K = JFC.K()
-wp = JFC.wp()
-
 JF = ModularForms()
 (x,y,z,d,a,b) = JF._pol_ring.gens()
 JFE = JF.extend_type("weak", ring=True)
 jinv = JFE(x**JFE._group.n()/(x**JFE._group.n()-y**2))
 jinvred = jinv.reduce()
+
+K=JF.K()
+wp=JF.wp()
+Kinv = 1/K
+
+# This takes a while:
+qexpK = K.q_expansion_fixed_d()
+qexpKinv = Kinv.q_expansion_fixed_d()
+qexpwp = wp.q_expansion_fixed_d()
