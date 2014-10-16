@@ -680,6 +680,7 @@ class FormsRing_abstract(Parent):
             d = FractionField(PolynomialRing(self.base_ring(), "d,p")).gen(0)
         else:
             d = fix_d
+        d = d * FractionField(PolynomialRing(self.base_ring(), "p"))(1)
 
         return d
 
