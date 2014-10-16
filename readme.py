@@ -631,7 +631,7 @@ Modular forms ring and spaces for Hecke triangle groups:
       CuspForms(n=7, k=12, ep=1) over Integer Ring
 
       sage: MF = ModularForms(k=12, ep=1)
-      sage: (x,y,z,d,a,b) = MF.pol_ring().gens()
+      sage: (x,y,z,d,a,b,c) = MF.pol_ring().gens()
 
       Using existing functions:
       sage: CF.Delta()
@@ -842,7 +842,7 @@ Modular forms ring and spaces for Hecke triangle groups:
       QuasiModularFormsRing(n=5) over Integer Ring
       sage: ModularFormsRing()
       ModularFormsRing(n=3) over Integer Ring
-      sage: (x,y,z,d,a,b) = ModularFormsRing().pol_ring().gens()
+      sage: (x,y,z,d,a,b,c) = ModularFormsRing().pol_ring().gens()
 
       sage: ModularFormsRing()(x+y)
       f_rho + f_i

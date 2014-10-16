@@ -91,7 +91,7 @@ class FormsRing_abstract(Parent):
         self._red_hom             = red_hom
         self._base_ring           = base_ring
         self._coeff_ring          = FractionField(PolynomialRing(base_ring,'d,p'))
-        self._pol_ring            = PolynomialRing(base_ring,'x,y,z,d,a,b')
+        self._pol_ring            = PolynomialRing(base_ring,'x,y,z,d,a,b,c')
         self._rat_field           = FractionField(self._pol_ring)
 
         # default values
@@ -140,7 +140,7 @@ class FormsRing_abstract(Parent):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import ModularFormsRing
             sage: MR = ModularFormsRing()
-            sage: (x,y,z,d,a,b) = MR.pol_ring().gens()
+            sage: (x,y,z,d,a,b,c) = MR.pol_ring().gens()
 
             sage: MR(x^3)
             f_rho^3
@@ -1067,7 +1067,7 @@ class FormsRing_abstract(Parent):
             1/1728*q^-1 + 31/72 + 1823/16*q + 335840/27*q^2 + 16005555/32*q^3 + 11716352*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("weak", ring=True)(x/(x-y**2)).reduce()
@@ -1119,7 +1119,7 @@ class FormsRing_abstract(Parent):
             q^-1 + 744 + 196884*q + 21493760*q^2 + 864299970*q^3 + 20245856256*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("weak", ring=True)(1/d*x/(x-y**2)).reduce()
@@ -1196,7 +1196,7 @@ class FormsRing_abstract(Parent):
             1 + 240*q + 2160*q^2 + 6720*q^3 + 17520*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("holo", ring=True)(1).reduce()
@@ -1264,7 +1264,7 @@ class FormsRing_abstract(Parent):
             1 - 504*q - 16632*q^2 - 122976*q^3 - 532728*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         return self.extend_type("holo", ring=True)(y).reduce()
 
@@ -1334,7 +1334,7 @@ class FormsRing_abstract(Parent):
             q - 24*q^2 + 252*q^3 - 1472*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("holo", ring=True)(d*(x-y**2)).reduce()
@@ -1412,7 +1412,7 @@ class FormsRing_abstract(Parent):
             ArithmeticError: G_inv doesn't exists for odd n(=9).
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             raise ArithmeticError("G_inv doesn't exists for n={} (it is not meromorphic at -1).".format(self._group.n()))
@@ -1488,7 +1488,7 @@ class FormsRing_abstract(Parent):
         if (self.hecke_n() == infinity):
             raise ArithmeticError("g_inv doesn't exists for n={} (it is not meromorphic at -1).".format(self._group.n()))
         if (ZZ(2).divides(self._group.n())):
-            (x,y,z,d,a,b) = self._pol_ring.gens()
+            (x,y,z,d,a,b,c) = self._pol_ring.gens()
             return self.extend_type("weak", ring=True)(1/d*y*x**(self._group.n()/ZZ(2))/(x**self._group.n()-y**2)).reduce()
         else:
            raise ArithmeticError("g_inv doesn't exists for odd n(={}).".format(self._group.n()))
@@ -1561,7 +1561,7 @@ class FormsRing_abstract(Parent):
             1 + 240*q + 2160*q^2 + 6720*q^3 + 17520*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("holo", ring=True)(x).reduce()
@@ -1628,7 +1628,7 @@ class FormsRing_abstract(Parent):
             1 - 504*q - 16632*q^2 - 122976*q^3 - 532728*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("holo", ring=True)(x*y).reduce()
@@ -1701,7 +1701,7 @@ class FormsRing_abstract(Parent):
             q - 24*q^2 + 252*q^3 - 1472*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         if (self.hecke_n() == infinity):
             return self.extend_type("cusp", ring=True)(d*x**2*(x-y**2)).reduce()
@@ -1772,7 +1772,7 @@ class FormsRing_abstract(Parent):
             1 - 24*q - 72*q^2 - 96*q^3 - 168*q^4 + O(q^5)
         """
 
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
 
         return self.extend_type(["holo", "quasi"], ring=True)(z).reduce()
 
@@ -1943,10 +1943,10 @@ class FormsRing_abstract(Parent):
 
     @cached_method
     def K(self):
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
         return self.extend_type(["mero", "quasi"], ring=True)(a).reduce()
 
     @cached_method
     def wp(self):
-        (x,y,z,d,a,b) = self._pol_ring.gens()
+        (x,y,z,d,a,b,c) = self._pol_ring.gens()
         return self.extend_type(["mero", "quasi"], ring=True)(b).reduce()

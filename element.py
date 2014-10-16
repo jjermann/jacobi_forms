@@ -43,7 +43,7 @@ class FormsElement(FormsRingElement):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.space import ModularForms
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: MF = ModularForms(n=5, k=20/3, ep=1)
             sage: MF.default_prec(3)
             sage: el = MF(x^5*d-y^2*d)
@@ -88,7 +88,7 @@ class FormsElement(FormsRingElement):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: QuasiModularForms(n=5, k=10, ep=-1)(x^3*z^3-y^3)
             21/(20*d)*q - 4977/(16000*d^2)*q^2 + 297829/(12800000*d^3)*q^3 + 27209679/(20480000000*d^4)*q^4 + O(q^5)
             sage: QuasiModularForms(n=infinity, k=8, ep=1)(x*(x-y^2))
@@ -106,7 +106,7 @@ class FormsElement(FormsRingElement):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: latex(QuasiModularForms(n=5, k=10, ep=-1)(x^3*z^3-y^3))
             f_{\rho}^{3} E_{2}^{3} -  f_{i}^{3}
             sage: latex(QuasiModularForms(n=infinity, k=8, ep=1)(x*(x-y^2)))

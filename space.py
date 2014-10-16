@@ -305,7 +305,7 @@ class QuasiModularForms(FormsSpace_abstract, Module, UniqueRepresentation):
             True
         """
 
-        (x,y,z,d,a,b) = self.pol_ring().gens()
+        (x,y,z,d,a,b,c) = self.pol_ring().gens()
         k = self._weight
         rmax = QQ(k / ZZ(2)).floor()
         partlist = v.rat().numerator().polynomial(z).list()
@@ -475,7 +475,7 @@ class QuasiCuspForms(FormsSpace_abstract, Module, UniqueRepresentation):
             True
         """
 
-        (x,y,z,d,a,b) = self.pol_ring().gens()
+        (x,y,z,d,a,b,c) = self.pol_ring().gens()
         k = self._weight
         rmax = QQ(k / ZZ(2)).floor()
         partlist = v.rat().numerator().polynomial(z).list()

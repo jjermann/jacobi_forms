@@ -38,7 +38,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
 
     INPUT:
 
-    - ``f``              -- A rational function in ``x,y,z,d,a,b`` over ``base_ring``.
+    - ``f``              -- A rational function in ``x,y,z,d,a,b,c`` over ``base_ring``.
 
     - ``n``              -- An integer greater or equal to `3` corresponding
                             to the ``HeckeTriangleGroup`` with that parameter
@@ -75,7 +75,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
     EXAMPLES::
 
         sage: from sage.modular.modform_hecketriangle.constructor import rational_type
-        sage: (x,y,z,d,a,b) = var("x,y,z,d,a,b")
+        sage: (x,y,z,d,a,b,c) = var("x,y,z,d,a,b,c")
 
         sage: rational_type(0, n=4)
         (True, True, 0, 1, zero)
@@ -128,10 +128,10 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
 
     analytic_type = AT(["quasi", "mero"])
 
-    R              = PolynomialRing(base_ring,'x,y,z,d,a,b')
+    R              = PolynomialRing(base_ring,'x,y,z,d,a,b,c')
     F              = FractionField(R)
-    (x,y,z,d,a,b)  = R.gens()
-    R2             = PolynomialRing(PolynomialRing(base_ring, 'd'), 'x,y,z,a,b')
+    (x,y,z,d,a,b,c)  = R.gens()
+    R2             = PolynomialRing(PolynomialRing(base_ring, 'd'), 'x,y,z,a,b,c')
     dhom           = R.hom( R2.gens() + (R2.base().gen(),), R2)
 
     f              = F(f)

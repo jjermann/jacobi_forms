@@ -695,6 +695,21 @@ class JFSeriesConstructor(SageObject,UniqueRepresentation):
 
         return sum([sum([self._cWP(d,r)*p**r for r in range(min_rcoeff(d), max_rcoeff(d) + 1)])*q**d for d in range(self.prec())])
 
+    #TODO
+    @cached_method
+    def J1(self):
+        q = self._series_ring.gen()
+        p = self._series_ring.base_ring().gen()
+
+        def min_rcoeff(d):
+            #TODO
+            return -10
+        def max_rcoeff(d):
+            #TODO
+            return 10
+
+        return sum([sum([self._cK(d,r)*p**r for r in range(min_rcoeff(d), max_rcoeff(d) + 1)])*q**d for d in range(self.prec())])
+
     # TODO: add a map from series_ring to series_ring2
     # TODO: map K to series_ring2, take log and take p*derivative -> gives J1
     # TODO?: 1/K has min_rcoeff resp. max_rcoeff = infinity -> what todo?

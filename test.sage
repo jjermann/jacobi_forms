@@ -19,7 +19,7 @@ AT = AnalyticType()
 JFC = JFSeriesConstructor()
 
 JF = ModularForms()
-(x,y,z,d,a,b) = JF._pol_ring.gens()
+(x,y,z,d,a,b,c) = JF._pol_ring.gens()
 JFE = JF.extend_type("weak", ring=True)
 jinv = JFE(x**JFE._group.n()/(x**JFE._group.n()-y**2))
 jinvred = jinv.reduce()

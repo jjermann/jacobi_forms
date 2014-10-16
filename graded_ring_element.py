@@ -83,7 +83,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         - ``parent`` -- An (non abstract) instance of ``FormsRing_abstract``.
 
         - ``rat``    -- A rational function in ``parent.rat_field()``, the
-                        fraction field of the polynomial ring in ``x,y,z,d,a,b``
+                        fraction field of the polynomial ring in ``x,y,z,d,a,b,c``
                         over the base ring of ``parent``.
 
         OUTPUT:
@@ -94,7 +94,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: MR = QuasiModularFormsRing(n=5)
             sage: el = MR(x^3*d + y*z)
             sage: el
@@ -138,7 +138,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import MeromorphicModularFormsRing
-            sage: (x,y,z,d,a,b) = MeromorphicModularFormsRing().pol_ring().gens()
+            sage: (x,y,z,d,a,b,c) = MeromorphicModularFormsRing().pol_ring().gens()
             sage: MeromorphicModularFormsRing(n=3)(x) == MeromorphicModularFormsRing(n=4)(x)
             False
             sage: MeromorphicModularFormsRing()(-1/x) is MeromorphicModularFormsRing()(1/(-x))
@@ -169,7 +169,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing(n=5)(x^3*z-d*y)
             f_rho^3*E2 - f_i*d
 
@@ -186,7 +186,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: QuasiModularForms(n=5, k=6, ep=-1)(x^3*z)._rat_repr()
             'f_rho^3*E2'
 
@@ -195,10 +195,10 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         """
 
         if (self.hecke_n() == infinity):
-            with localvars(self.parent()._pol_ring, "E4, f_i, E2, d, a, b"):
+            with localvars(self.parent()._pol_ring, "E4, E6, E2, d, K, wp, J1"):
                 pol_str = str(self._rat)
         else:
-            with localvars(self.parent()._pol_ring, "f_rho, f_i, E2, d, a, b"):
+            with localvars(self.parent()._pol_ring, "E4, E6, E2, K, wp, J1"):
                 pol_str = str(self._rat)
 
         return "{}".format(pol_str)
@@ -210,7 +210,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: MR = QuasiModularFormsRing(n=5)
             sage: MR.disp_prec(3)
             sage: MR(x^3*z-d*y)._qexp_repr()
@@ -233,7 +233,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         EXAMPLES::
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
-            sage: (x,y,z,d,a,b)=var("x,y,z,d,a,b")
+            sage: (x,y,z,d,a,b,c)=var("x,y,z,d,a,b,c")
             sage: latex(QuasiModularFormsRing(n=5)(x^3*z-d*y))
             f_{\rho}^{3} E_{2} -  f_{i} d
 
@@ -359,7 +359,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             True
             sage: QuasiModularFormsRing(n=12).Delta().parent().is_homogeneous()
             False
-            sage: x,y,z,d,a,b=var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c=var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing(n=12)(x^3+y^2+z+d).is_homogeneous()
             False
 
@@ -377,7 +377,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import ModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing()(x+y).weight() is None
             True
             sage: ModularForms(n=18).f_i().weight()
@@ -396,7 +396,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import ModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing()(x+y).ep() is None
             True
             sage: ModularForms(n=18).f_i().ep()
@@ -417,7 +417,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import ModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing()(x+y).degree() == (None, None)
             True
             sage: ModularForms(n=18).f_i().degree()
@@ -437,7 +437,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing(n=5)(x^2+y-d).is_modular()
             True
             sage: QuasiModularFormsRing(n=5)(x^2+y-d+z).is_modular()
@@ -462,7 +462,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiMeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiMeromorphicModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiMeromorphicModularFormsRing(n=5)(x/(x^5-y^2)+z).is_weakly_holomorphic()
             True
             sage: QuasiMeromorphicModularFormsRing(n=5)(x^2+y/x-d).is_weakly_holomorphic()
@@ -487,7 +487,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiMeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiMeromorphicModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiMeromorphicModularFormsRing(n=5)((y^3-z^5)/(x^5-y^2)+y-d).is_holomorphic()
             False
             sage: QuasiMeromorphicModularFormsRing(n=5)(x^2+y-d+z).is_holomorphic()
@@ -512,7 +512,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing(n=5)(y^3-z^5).is_cuspidal()
             False
             sage: QuasiModularFormsRing(n=5)(z*x^5-z*y^2).is_cuspidal()
@@ -537,7 +537,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiModularFormsRing(n=5)(1).is_zero()
             False
             sage: QuasiModularFormsRing(n=5)(0).is_zero()
@@ -560,7 +560,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiMeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiMeromorphicModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiMeromorphicModularFormsRing(n=5)(x/z+d).analytic_type()
             quasi meromorphic modular
             sage: QuasiMeromorphicModularFormsRing(n=5)((y^3-z^5)/(x^5-y^2)+y-d).analytic_type()
@@ -589,7 +589,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiMeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiMeromorphicModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiMeromorphicModularFormsRing(n=5)((y^3-z^5)/(x^5-y^2)+y-d).numerator()
             f_rho^5*f_i - f_rho^5*d - E2^5 + f_i^2*d
             sage: QuasiMeromorphicModularFormsRing(n=5)((y^3-z^5)/(x^5-y^2)+y-d).numerator().parent()
@@ -621,7 +621,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
             sage: from sage.modular.modform_hecketriangle.graded_ring import QuasiMeromorphicModularFormsRing
             sage: from sage.modular.modform_hecketriangle.space import QuasiMeromorphicModularForms
-            sage: x,y,z,d,a,b = var("x,y,z,d,a,b")
+            sage: x,y,z,d,a,b,c = var("x,y,z,d,a,b,c")
             sage: QuasiMeromorphicModularFormsRing(n=5).Delta().full_reduce().denominator()
             1 + O(q^5)
             sage: QuasiMeromorphicModularFormsRing(n=5)((y^3-z^5)/(x^5-y^2)+y-d).denominator()
@@ -1050,7 +1050,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             E4*E2 + 1
         """
 
-        (x,y,z,d,a,b) = self.parent().rat_field().gens()
+        (x,y,z,d,a,b,c) = self.parent().rat_field().gens()
         (X,Y,Z,dX,dY,dZ) = self.parent().diff_alg().gens()
         L = op.monomials()
         new_rat = 0
@@ -1230,7 +1230,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             0
             sage: (MR.J_inv()^2).order_at(infinity)
             -2
-            sage: x,y,z,d,a,b = MR.pol_ring().gens()
+            sage: x,y,z,d,a,b,c = MR.pol_ring().gens()
             sage: el = MR((z^3-y)^2/(x^3-y^2)).full_reduce()
             sage: el
             108*q + 11664*q^2 + 502848*q^3 + 12010464*q^4 + O(q^5)
@@ -1290,7 +1290,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             R         = self.parent().pol_ring()
             numerator = R(rat.numerator())
             denom     = R(rat.denominator())
-            (x,y,z,d,a,b) = R.gens()
+            (x,y,z,d,a,b,c) = R.gens()
             n         = self.hecke_n()
 
             if (tau == i):
@@ -1510,12 +1510,13 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         Y  = SC.f_i_ZZ().base_extend(formal_d.parent())
         A  = SC.K().base_extend(formal_d.parent())
         B  = SC.wp().base_extend(formal_d.parent())
+        C  = SC.J1().base_extend(formal_d.parent())
 
         if (self.parent().is_modular()):
-            qexp = self._rat.subs(x=X, y=Y, d=formal_d, a=A, b=B)
+            qexp = self._rat.subs(x=X, y=Y, d=formal_d, a=A, b=B, c=C)
         else:
             Z = SC.E2_ZZ().base_extend(formal_d.parent())
-            qexp = self._rat.subs(x=X, y=Y, z=Z, d=formal_d, a=A, b=B)
+            qexp = self._rat.subs(x=X, y=Y, z=Z, d=formal_d, a=A, b=B, c=C)
 
         qexp = (qexp + O(formal_q**prec)).parent()(qexp)
         qexp = qexp(formal_q/formal_d)
@@ -2096,7 +2097,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
             num_prec\
         )
         tau = tau.n(num_prec)
-        (x,y,z,d,a,b) = self.parent().rat_field().gens()
+        (x,y,z,d,a,b,c) = self.parent().rat_field().gens()
 
         if (self.is_homogeneous() and self.is_modular()):
             q_exp = self.q_expansion_fixed_d(prec=prec, d_num_prec=num_prec)
