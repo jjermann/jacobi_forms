@@ -1,7 +1,14 @@
 FIXME:
 
+o The analytic type is much more involved since there are two parameters
+  -> need to figure it all out ^^
+
 o K has negative weight, for the homogeneous weight polynomial it is easier to
   work with positive weights, so for now the weight of K is set to 1 instead
   of -1
 
+o The assumption for numerator/denominator is that they are holomorphic (in
+  tau), is it still possible to maintain this assumption?
+
 o Is K resp. J1 even modular?? ep=?
+

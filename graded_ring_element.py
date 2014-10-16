@@ -195,10 +195,10 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
         """
 
         if (self.hecke_n() == infinity):
-            with localvars(self.parent()._pol_ring, "E4, E6, E2, K, wp, J1, d"):
+            with localvars(self.parent()._pol_ring, "E4, E6, E2, K, WP, J1, d"):
                 pol_str = str(self._rat)
         else:
-            with localvars(self.parent()._pol_ring, "E4, E6, E2, K, wp, J1, d"):
+            with localvars(self.parent()._pol_ring, "E4, E6, E2, K, WP, J1, d"):
                 pol_str = str(self._rat)
 
         return "{}".format(pol_str)
@@ -609,7 +609,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
         res = self.parent().rat_field()(self._rat.numerator())
         # In general the numerator has a different weight than the original function...
-        new_parent = self.parent().extend_type(ring=True).reduce_type(["holo", "quasi"])
+        new_parent = self.parent().extend_type(ring=True).reduce_type(["holo", "quasi", "jacobi"])
         return new_parent(res).reduce()
 
     def denominator(self):
@@ -643,7 +643,7 @@ class FormsRingElement(CommutativeAlgebraElement, UniqueRepresentation):
 
         res = self.parent().rat_field()(self._rat.denominator())
         # In general the denominator has a different weight than the original function...
-        new_parent = self.parent().extend_type("holo", ring=True).reduce_type(["holo", "quasi"])
+        new_parent = self.parent().extend_type("holo", ring=True).reduce_type(["holo", "quasi", "jacobi"])
         return new_parent(res).reduce()
 
     def _add_(self,other):

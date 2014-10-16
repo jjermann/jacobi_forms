@@ -5,6 +5,8 @@ from graded_ring_element import *
 from hecke_triangle_groups import *
 from graded_ring import *
 from space import *
+from jacobi_ring import *
+from jacobi_space import *
 from abstract_ring import *
 from abstract_space import *
 
@@ -19,16 +21,16 @@ AT = AnalyticType()
 JFC = JFSeriesConstructor()
 
 JF = ModularForms()
-(x,y,z,d,a,b,c) = JF._pol_ring.gens()
+(x,y,z,a,b,c,d) = JF._pol_ring.gens()
 JFE = JF.extend_type("weak", ring=True)
 jinv = JFE(x**JFE._group.n()/(x**JFE._group.n()-y**2))
 jinvred = jinv.reduce()
 
 K=JF.K()
-wp=JF.wp()
+WP=JF.WP()
 Kinv = 1/K
 
 # This takes a while:
-qexpK = K.q_expansion_fixed_d()
-qexpKinv = Kinv.q_expansion_fixed_d()
-qexpwp = wp.q_expansion_fixed_d()
+#qexpK = K.q_expansion_fixed_d()
+#qexpKinv = Kinv.q_expansion_fixed_d()
+#qexpwp = wp.q_expansion_fixed_d()

@@ -1944,9 +1944,14 @@ class FormsRing_abstract(Parent):
     @cached_method
     def K(self):
         (x,y,z,a,b,c,d) = self._pol_ring.gens()
-        return self.extend_type(["mero", "quasi"], ring=True)(a).reduce()
+        return self.extend_type(["weak", "jacobi"], ring=True)(a).reduce()
 
     @cached_method
-    def wp(self):
+    def WP(self):
         (x,y,z,a,b,c,d) = self._pol_ring.gens()
-        return self.extend_type(["mero", "quasi"], ring=True)(b).reduce()
+        return self.extend_type(["weak", "jacobi"], ring=True)(b).reduce()
+
+    @cached_method
+    def J1(self):
+        (x,y,z,a,b,c,d) = self._pol_ring.gens()
+        return self.extend_type(["quasi", "weak", "jacobi"], ring=True)(c).reduce()

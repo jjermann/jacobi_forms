@@ -121,17 +121,29 @@ class AnalyticTypeElement(LatticePosetElement):
 
         name = ""
         if   self.parent()("quasi") <= self:
-             name += "Quasi"
-        if   self.parent()("mero")  <= self:
-             name += "MeromorphicModular"
-        elif self.parent()("weak")  <= self:
-             name += "WeakModular"
-        elif self.parent()("holo")  <= self:
-             name += "Modular"
-        elif self.parent()("cusp")  <= self:
-             name += "Cusp"
+            name += "Quasi"
+        if   self.parent()("jacobi") <= self:
+            if   self.parent()("mero")  <= self:
+                name += "MeromorphicJacobi"
+            elif self.parent()("weak")  <= self:
+                name += "WeakJacobi"
+            elif self.parent()("holo")  <= self:
+                name += "Jacobi"
+            elif self.parent()("cusp")  <= self:
+                name += "Cusp"
+            else:
+                name  = "Zero"
         else:
-             name  = "Zero"
+            if   self.parent()("mero")  <= self:
+                name += "MeromorphicModular"
+            elif self.parent()("weak")  <= self:
+                name += "WeakModular"
+            elif self.parent()("holo")  <= self:
+                name += "Modular"
+            elif self.parent()("cusp")  <= self:
+                name += "Cusp"
+            else:
+                name  = "Zero"
 
         return name
 
@@ -158,17 +170,29 @@ class AnalyticTypeElement(LatticePosetElement):
 
         name = ""
         if   self.parent()("quasi") <= self:
-             name += "Q"
-        if   self.parent()("mero")  <= self:
-             name += "\\tilde{M}"
-        elif self.parent()("weak")  <= self:
-             name += "M^!"
-        elif self.parent()("holo")  <= self:
-             name += "M"
-        elif self.parent()("cusp")  <= self:
-             name += "C"
+            name += "Q"
+        if self.parent()("jacobi") <=self:
+            if   self.parent()("mero")  <= self:
+                name += "\\tilde{J}"
+            elif self.parent()("weak")  <= self:
+                name += "J^!"
+            elif self.parent()("holo")  <= self:
+                name += "J"
+            elif self.parent()("cusp")  <= self:
+                name += "CJ"
+            else:
+                name  = "Z"
         else:
-             name  = "Z"
+            if   self.parent()("mero")  <= self:
+                name += "\\tilde{M}"
+            elif self.parent()("weak")  <= self:
+                name += "M^!"
+            elif self.parent()("holo")  <= self:
+                name += "M"
+            elif self.parent()("cusp")  <= self:
+                name += "C"
+            else:
+                name  = "Z"
 
         return name
 
@@ -191,16 +215,28 @@ class AnalyticTypeElement(LatticePosetElement):
         name = ""
         if   self.parent()("quasi") <= self:
              name += "quasi "
-        if   self.parent()("mero")  <= self:
-             name += "meromorphic modular"
-        elif self.parent()("weak")  <= self:
-             name += "weakly holomorphic modular"
-        elif self.parent()("holo")  <= self:
-             name += "modular"
-        elif self.parent()("cusp")  <= self:
-             name += "cuspidal"
+        if self.parent()("jacobi") <=self:
+            if   self.parent()("mero")  <= self:
+                name += "meromorphic jacobi"
+            elif self.parent()("weak")  <= self:
+                name += "weakly holomorphic jacobi"
+            elif self.parent()("holo")  <= self:
+                name += "jacobi"
+            elif self.parent()("cusp")  <= self:
+                name += "cuspidal jacobi"
+            else:
+                name  = "zero"
         else:
-             name  = "zero"
+            if   self.parent()("mero")  <= self:
+                name += "meromorphic modular"
+            elif self.parent()("weak")  <= self:
+                name += "weakly holomorphic modular"
+            elif self.parent()("holo")  <= self:
+                name += "modular"
+            elif self.parent()("cusp")  <= self:
+                name += "cuspidal"
+            else:
+                name  = "zero"
 
         return name
 
@@ -444,7 +480,7 @@ class AnalyticType(FiniteLatticePoset):
         """
 
         # We (arbitrarily) choose to model by inclusion instead of restriction
-        P_elements = [ "cusp", "holo", "weak", "mero", "quasi"]
+        P_elements = [ "cusp", "holo", "weak", "mero", "quasi", "jacobi"]
         P_relations = [["cusp", "holo"], ["holo", "weak"], ["weak", "mero"]]
 
         self._base_poset = Poset([P_elements, P_relations], cover_relations=True, facade=False)

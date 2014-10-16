@@ -125,7 +125,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
         #       elem, homo, k,     ep,    m,     analytic_type
         return (True, True, QQ(0), ZZ(1), QQ(0), AT([]))
 
-    analytic_type = AT(["quasi", "mero"])
+    analytic_type = AT(["quasi", "mero", "jacobi"])
 
     R              = PolynomialRing(base_ring,'x,y,z,a,b,c,d')
     F              = FractionField(R)
@@ -181,18 +181,22 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
     else:
         finf_pol = x**n-y**2
 
+    # Determine whether f is jacobi or not
+    if not any([num.degree(sym) or denom.degree(sym) for sym in (a,b,c)]):
+        analytic_type = analytic_type.reduce_to(["mero", "quasi"])
+
     # Determine whether f is modular
     if not ( (num.degree(z) > 0) or (denom.degree(z) > 0) or (num.degree(c) > 0) or (denom.degree(c) > 0)):
-        analytic_type = analytic_type.reduce_to("mero")
+        analytic_type = analytic_type.reduce_to(["mero", "jacobi"])
 
     # Determine whether f is holomorphic
     if (dhom(denom).is_constant()):
-        analytic_type = analytic_type.reduce_to(["quasi", "holo"])
+        analytic_type = analytic_type.reduce_to(["quasi", "jacobi", "holo"])
         # Determine whether f is cuspidal in the sense that finf divides it...
         # Bug in singular: finf_pol.dividess(1.0) fails over RR
         if (not dhom(num).is_constant() and finf_pol.divides(num)):
             if (n != infinity or x.divides(num)):
-                analytic_type = analytic_type.reduce_to(["quasi", "cusp"])
+                analytic_type = analytic_type.reduce_to(["quasi", "jacobi", "cusp"])
     else:
         # -> Because of a bug with singular in some cases
         try:
@@ -212,7 +216,7 @@ def rational_type(f, n=ZZ(3), base_ring=ZZ):
 
         # Determine whether f is weakly holomorphic in the sense that at most powers of finf occur in denom
         if (dhom(denom).is_constant()):
-            analytic_type = analytic_type.reduce_to(["quasi", "weak"])
+            analytic_type = analytic_type.reduce_to(["quasi", "jacobi", "weak"])
 
     return (elem, homo, weight, ep, index, analytic_type)
 
@@ -331,6 +335,46 @@ def FormsSpace(analytic_type, group=3, base_ring=ZZ, k=QQ(0), ep=None):
         else:
             from space import QuasiMeromorphicModularForms
             return QuasiMeromorphicModularForms(group=group, base_ring=base_ring, k=k, ep=ep)
+    elif analytic_type <= AT(["mero", "jacobi"]):
+        if analytic_type <= AT(["weak", "jacobi"]):
+            if analytic_type <= AT(["holo", "jacobi"]):
+                if analytic_type <= AT(["cusp", "jacobi"]):
+                    if analytic_type <= AT(["jacobi"]):
+                        raise ValueError("There should be only non-quasi ZeroForms. That could be changed but then this exception should be removed.")
+                        from space import ZeroForm
+                        return ZeroForm(group=group, base_ring=base_ring, k=k, ep=ep)
+                    else:
+                        from jacobi_space import CuspJacobiForms
+                        return CuspJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+                else:
+                    from jacobi_space import JacobiForms
+                    return JacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+            else:
+                from jacobi_space import WeakJacobiForms
+                return WeakJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+        else:
+            from jacobi_space import MeromorphicJacobiForms
+            return MeromorphicJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+    elif analytic_type <= AT(["mero", "quasi", "jacobi"]):
+        if analytic_type <= AT(["weak", "quasi", "jacobi"]):
+            if analytic_type <= AT(["holo", "quasi", "jacobi"]):
+                if analytic_type <= AT(["cusp", "quasi", "jacobi"]):
+                    if analytic_type <= AT(["quasi", "jacobi"]):
+                        raise ValueError("There should be only non-quasi ZeroForms. That could be changed but then this exception should be removed.")
+                        from space import ZeroForm
+                        return ZeroForm(group=group, base_ring=base_ring, k=k, ep=ep)
+                    else:
+                        from jacobi_space import QuasiCuspJacobiForms
+                        return QuasiCuspJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+                else:
+                    from jacobi_space import QuasiJacobiForms
+                    return QuasiJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+            else:
+                from jacobi_space import QuasiWeakJacobiForms
+                return QuasiWeakJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
+        else:
+            from jacobi_space import QuasiMeromorphicJacobiForms
+            return QuasiMeromorphicJacobiForms(group=group, base_ring=base_ring, k=k, ep=ep)
     else:
         raise NotImplementedError("Analytic type not implemented.")
 
@@ -436,5 +480,41 @@ def FormsRing(analytic_type, group=3, base_ring=ZZ, red_hom=False):
         else:
             from graded_ring import QuasiMeromorphicModularFormsRing
             return QuasiMeromorphicModularFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+    elif analytic_type <= AT(["mero", "jacobi"]):
+        if analytic_type <= AT(["weak", "jacobi"]):
+            if analytic_type <= AT(["holo", "jacobi"]):
+                if analytic_type <= AT(["cusp", "jacobi"]):
+                    if analytic_type <=AT(["jacobi"]):
+                        raise ValueError("Analytic type Zero is not valid for forms rings.")
+                    else:
+                        from jacobi_ring import CuspJacobiFormsRing
+                        return CuspJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+                else:
+                    from jacobi_ring import JacobiFormsRing
+                    return JacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+            else:
+                from jacobi_ring import WeakJacobiFormsRing
+                return WeakJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+        else:
+            from jacobi_ring import MeromorphicJacobiFormsRing
+            return MeromorphicJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+    elif analytic_type <= AT(["mero", "quasi", "jacobi"]):
+        if analytic_type <= AT(["weak", "quasi", "jacobi"]):
+            if analytic_type <= AT(["holo", "quasi", "jacobi"]):
+                if analytic_type <= AT(["cusp", "quasi", "jacobi"]):
+                    if analytic_type <=AT(["quasi", "jacobi"]):
+                        raise ValueError("Analytic type Zero is not valid for forms rings.")
+                    else:
+                        from jacobi_ring import QuasiCuspJacobiFormsRing
+                        return QuasiCuspJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+                else:
+                    from jacobi_ring import QuasiJacobiFormsRing
+                    return QuasiJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+            else:
+                from jacobi_ring import QuasiWeakJacobiFormsRing
+                return QuasiWeakJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
+        else:
+            from jacobi_ring import QuasiMeromorphicJacobiFormsRing
+            return QuasiMeromorphicJacobiFormsRing(group=group, base_ring=base_ring, red_hom=red_hom)
     else:
         raise NotImplementedError("Analytic type not implemented.")
